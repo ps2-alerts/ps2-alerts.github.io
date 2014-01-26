@@ -77,47 +77,59 @@ var updateDetails = function(id, details){
 	}
 }
 
-$(document).ready(function(){
-	var socket = new WebSocket('ws://ps2-alerts.herokuapp.com');
+var dataReceived = function(data){
+	if(data.init){
+		worlds = data.worlds;
+
+		var array = [];
+		for(var index in data.worlds){
+			array.push(data.worlds[index]);
+		}
+
+		array.sort(function(a, b){
+			return a.name > b.name;
+		});
+
+		for(var index = 0; index < array.length; index++){
+			var world = array[index];
+			$('table').append('<tr id="world-' + world.id + '"></tr>');
+			$('tr:last').append('<td>' + world.name + '</td>');
+			$('tr:last').append('<td class="state"></td>');
+			$('tr:last').append('<td class="type"></td>');
+			$('tr:last').append('<td class="zone"></td>');
+			$('tr:last').append('<td class="details"></td>');
+
+			updateAlert(world);
+
+			if(world.active)
+				updateDetails(world.id, world.details);
+		}
+
+		array.length = 0;
+	} else if(data.world){
+		worlds[data.world.id] = data.world;
+		updateAlert(data.world);
+	} else if(data.details){
+		updateDetails(data.id, data.details);
+	}
+}
+
+var connect = function(url){
+	var socket = new WebSocket(url);
 	socket.onmessage = function(event){
-		var data = JSON.parse(event.data);
-		if(data.ping){
+		if(event.data == 'ping'){
 			socket.send('pong');
-		} else if(data.init){
-			worlds = data.worlds;
-
-			var array = [];
-			for(var index in data.worlds){
-				array.push(data.worlds[index]);
-			}
-
-			array.sort(function(a, b){
-				return a.name > b.name;
-			});
-
-			for(var index = 0; index < array.length; index++){
-				var world = array[index];
-				$('table').append('<tr id="world-' + world.id + '"></tr>');
-				$('tr:last').append('<td>' + world.name + '</td>');
-				$('tr:last').append('<td class="state"></td>');
-				$('tr:last').append('<td class="type"></td>');
-				$('tr:last').append('<td class="zone"></td>');
-				$('tr:last').append('<td class="details"></td>');
-
-				updateAlert(world);
-
-				if(world.active)
-					updateDetails(world.id, world.details);
-			}
-
-			array.length = 0;
-		} else if(data.world){
-			worlds[data.world.id] = data.world;
-			updateAlert(data.world);
-		} else if(data.details){
-			updateDetails(data.id, data.details);
+		} else {
+			dataReceived(JSON.parse(event.data));
 		}
 	}
 
+	socket.onclose = function(){
+		connect(url);
+	}
+}
+
+$(document).ready(function(){
+	connect('ws://ps2-alerts.herokuapp.com');
 	setInterval(updateTime, 1000);
 });
