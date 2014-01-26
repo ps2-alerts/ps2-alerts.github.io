@@ -78,7 +78,7 @@ var updateDetails = function(id, details){
 }
 
 $(document).ready(function(){
-	var socket = new WebSocket(location.origin.replace(/^http/, 'ws'));
+	var socket = new WebSocket('ws://ps2-alerts.herokuapp.com');
 	socket.onmessage = function(event){
 		var data = JSON.parse(event.data);
 		if(data.ping){
