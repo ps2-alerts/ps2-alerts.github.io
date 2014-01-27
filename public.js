@@ -77,8 +77,9 @@ var updateDetails = function(id, details){
 	}
 }
 
+var initialized = false;
 var dataReceived = function(data){
-	if(data.init){
+	if(data.init && !initialized){
 		worlds = data.worlds;
 
 		var array = [];
@@ -105,6 +106,7 @@ var dataReceived = function(data){
 				updateDetails(world.id, world.details);
 		}
 
+		initialized = true;
 		array.length = 0;
 	} else if(data.world){
 		worlds[data.world.id] = data.world;
