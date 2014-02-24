@@ -136,8 +136,19 @@ var connect = function(url){
 		}
 	}
 
+	socket.onopen = function(){
+		if(window.interval){
+			clearInterval(window.interval);
+			window.interval = null;
+		}
+	}
+
 	socket.onclose = function(){
-		connect(url);
+		if(!window.interval){
+			window.interval = setInterval(function(){
+				connect(url);
+			}, 5000);
+		}
 	}
 }
 
