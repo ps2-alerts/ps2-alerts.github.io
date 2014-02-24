@@ -47,6 +47,9 @@ var updateDetails = function(id, details){
 	var selecter = '#world-' + id + ' .details';
 	$(selecter).html('');
 
+	if(!worlds[id].active)
+		return;
+
 	if(worlds[id].alert.type == 0){
 		$(selecter).append('<div class="bar vs bar-vs-' + id + '" style="width: ' + (216 * details[1]) / 100 + 'px"></div>');
 		if(details[1] > 15)
@@ -111,8 +114,15 @@ var dataReceived = function(data){
 	} else if(data.world){
 		worlds[data.world.id] = data.world;
 		updateAlert(data.world);
+
+		$('h2').hide();
 	} else if(data.details){
 		updateDetails(data.id, data.details);
+
+		$('h2').hide();
+	} else if(data.error){
+		if(typeof(data.error) == 'object' && data.error.statusCode == 302)
+			$('h2').show();
 	}
 }
 
