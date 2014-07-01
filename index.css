@@ -73,8 +73,8 @@ tr div {
 .biolabs div,
 .techplants div {
 	width: 20px;
-	border-radius: 25px;
 	margin-right: 8px;
+	background: no-repeat 0% / 100%;
 }
 
 .territory div {
@@ -88,14 +88,14 @@ tr div {
 	margin-right: 0;
 }
 
-.vs {
+.territory .vs {
 	background: #c660fc;
 }
 
-.nc {
+.territory .nc {
 	background: #6687f0;
 }
 
-.tr {
+.territory .tr {
 	background: #f04747;
 }
