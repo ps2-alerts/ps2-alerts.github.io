@@ -19,6 +19,7 @@ var eventNames = {
 
 var zoneNames = {
 	2: 'Indar',
+	4: 'Hossin',
 	6: 'Amerish',
 	8: 'Esamir'
 };
@@ -40,6 +41,17 @@ var facilityNames = {
 	2101: 'Hvar',
 	2102: 'Mao',
 	2108: 'Tawrich',
+
+	// Hossin
+	4140: 'Naum',
+	4150: 'Hurakan',
+	4160: 'Ixtab',
+	4170: 'Acan',
+	4180: 'Bitol',
+	4190: 'Zotz',
+	4200: 'Ghanan',
+	4210: 'Mulac',
+	4220: 'Chac',
 
 	// Amerish
 	6101: 'Kwahtee',
