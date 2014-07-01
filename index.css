@@ -19,7 +19,7 @@ table {
 
 tr {
 	background: #eee;
-	height: 24px;
+	height: 30px;
 }
 
 td {
@@ -66,13 +66,13 @@ tr.active:hover td {
 
 tr div {
 	float: left;
-	height: 17px;
+	height: 20px;
 }
 
 .ampstations div,
 .biolabs div,
 .techplants div {
-	width: 17px;
+	width: 20px;
 	border-radius: 25px;
 	margin-right: 8px;
 }
