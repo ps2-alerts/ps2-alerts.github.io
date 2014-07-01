@@ -184,6 +184,9 @@ var connect = function(url){
 };
 
 $(document).ready(function(){
-	connect('ws://ps2-alerts.herokuapp.com');
-	setInterval(updateTime, 1000);
+	if('WebSocket' in window){
+		setInterval(updateTime, 1000);
+		connect('ws://ps2-alerts.herokuapp.com');
+	} else
+		$('body').html('<h1>Your browser is too old!</h1>');
 });
