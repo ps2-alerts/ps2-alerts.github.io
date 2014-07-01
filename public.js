@@ -39,30 +39,9 @@ var updateTime = function(){
 			if(h > 2 || (h + +m + +s) < 0){
 				world.active = false;
 				updateAlert(world);
-			} else {
+			} else
 				$('#world-' + world.id + ' .state').html(h + ':' + m + ':' + s);
-			}
 		}
-	}
-}
-
-var updateAlert = function(id, alert){
-	var schema = '#world-' + id;
-	if(alert.active){
-		$(schema).addClass('active');
-		$(schema + ' .state').html('Active alert!');
-		$(schema + ' .type').html(eventNames[alert.type]);
-		$(schema + ' .zone').html(zoneNames[alert.zone]);
-
-		updateTime();
-	} else {
-		var state = worlds[id].state == 'online' ? 'no alert' : worlds[id].state;
-
-		$(schema).removeClass();
-		$(schema + ' .type').html('');
-		$(schema + ' .zone').html('');
-		$(schema + ' .details').html('');
-		$(schema + ' .state').html(state.charAt(0).toUpperCase() + state.slice(1));
 	}
 };
 
@@ -101,7 +80,27 @@ var updateDetails = function(id, details){
 			$('.facility-tr-' + id + '-' + index).attr('title', details[3][index]);
 		}
 	}
-}
+};
+
+var updateAlert = function(id, alert){
+	var schema = '#world-' + id;
+	if(alert.active){
+		$(schema).addClass('active');
+		$(schema + ' .state').html('Active alert!');
+		$(schema + ' .type').html(eventNames[alert.type]);
+		$(schema + ' .zone').html(zoneNames[alert.zone]);
+
+		updateTime();
+	} else {
+		var state = worlds[id].state == 'online' ? 'no alert' : worlds[id].state;
+
+		$(schema).removeClass();
+		$(schema + ' .type').html('');
+		$(schema + ' .zone').html('');
+		$(schema + ' .details').html('');
+		$(schema + ' .state').html(state.charAt(0).toUpperCase() + state.slice(1));
+	}
+};
 
 var processData = function(data){
 	if(data.worlds){
@@ -145,20 +144,18 @@ var processData = function(data){
 	} else if(data.alert){
 		worlds[data.id].alert = data.alert;
 		updateAlert(data.id, data.alert);
-	} else if(data.details){
+	} else if(data.details)
 		updateDetails(data.id, data.details);
-	}
-}
+};
 
 var interval;
 var connect = function(url){
 	var socket = new WebSocket(url);
 	socket.onmessage = function(event){
-		if(event.data == 'ping'){
+		if(event.data == 'ping')
 			socket.send('pong');
-		} else {
+		else
 			processData(JSON.parse(event.data));
-		}
 	}
 
 	socket.onopen = function(){
@@ -175,7 +172,7 @@ var connect = function(url){
 			}, 5000);
 		}
 	}
-}
+};
 
 $(document).ready(function(){
 	connect('ws://ps2-alerts.herokuapp.com');
