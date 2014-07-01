@@ -82,6 +82,13 @@ var updateDetails = function(id, details){
 	}
 };
 
+var updateState = function(id){
+	var state = worlds[id].state;
+	state = state == 'online' ? 'no alert' : state;
+
+	$('#world-' + id + ' .state').html(state.charAt(0).toUpperCase() + state.slice(1));
+}
+
 var updateAlert = function(id, alert){
 	var schema = '#world-' + id;
 	if(alert.active){
@@ -92,13 +99,12 @@ var updateAlert = function(id, alert){
 
 		updateTime();
 	} else {
-		var state = worlds[id].state == 'online' ? 'no alert' : worlds[id].state;
-
 		$(schema).removeClass();
 		$(schema + ' .type').html('');
 		$(schema + ' .zone').html('');
 		$(schema + ' .details').html('');
-		$(schema + ' .state').html(state.charAt(0).toUpperCase() + state.slice(1));
+
+		updateState(id);
 	}
 };
 
@@ -141,6 +147,9 @@ var processData = function(data){
 					updateDetails(id, world.details);
 			}
 		}
+	} else if(data.state){
+		worlds[data.id].state = data.state;
+		updateState(data.id);
 	} else if(data.alert){
 		worlds[data.id].alert = data.alert;
 		updateAlert(data.id, data.alert);
