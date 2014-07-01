@@ -1,4 +1,27 @@
-var worlds = {};
+var worlds, init;
+
+var worldNames = {
+	1: 'Connery',
+	9: 'Woodman',
+	10: 'Miller',
+	11: 'Ceres',
+	13: 'Cobalt',
+	17: 'Emerald',
+	25: 'Briggs'
+};
+
+var eventNames = {
+	0: 'Territory',
+	2: 'Amp Stations',
+	3: 'Biolabs',
+	4: 'Tech Plants'
+};
+
+var zoneNames = {
+	2: 'Indar',
+	6: 'Amerish',
+	8: 'Esamir'
+};
 
 var updateTime = function(){
 	var now = Date.now();
@@ -23,25 +46,25 @@ var updateTime = function(){
 	}
 }
 
-var updateAlert = function(world){
-	var row = '#world-' + world.id;
-	if(world.active){
-		$(row).addClass('active');
-		$(row + ' .type').html(world.alert.eventName);
-		$(row + ' .zone').html(world.alert.zoneName);
-		$(row + ' .state').html('Active alert!');
+var updateAlert = function(id, alert){
+	var schema = '#world-' + id;
+	if(alert.active){
+		$(schema).addClass('active');
+		$(schema + ' .state').html('Active alert!');
+		$(schema + ' .type').html(eventNames[alert.type]);
+		$(schema + ' .zone').html(zoneNames[alert.zone]);
 
 		updateTime();
 	} else {
-		var state = world.state == 'online' ? 'no alert' : world.state;
+		var state = worlds[id].state == 'online' ? 'no alert' : worlds[id].state;
 
-		$(row).removeClass();
-		$(row + ' .type').html('');
-		$(row + ' .zone').html('');
-		$(row + ' .details').html('');
-		$(row + ' .state').html(state.charAt(0).toUpperCase() + state.slice(1));
+		$(schema).removeClass();
+		$(schema + ' .type').html('');
+		$(schema + ' .zone').html('');
+		$(schema + ' .details').html('');
+		$(schema + ' .state').html(state.charAt(0).toUpperCase() + state.slice(1));
 	}
-}
+};
 
 var updateDetails = function(id, details){
 	var selecter = '#world-' + id + ' .details';
@@ -80,65 +103,74 @@ var updateDetails = function(id, details){
 	}
 }
 
-var initialized = false;
-var dataReceived = function(data){
-	if(data.init && !initialized){
+var processData = function(data){
+	if(data.worlds){
 		worlds = data.worlds;
 
-		var array = [];
-		for(var index in data.worlds){
-			array.push(data.worlds[index]);
+		if(!init){
+			init = true;
+
+			var array = [];
+			for(var id in worlds)
+				array.push({name: worldNames[id], id: id});
+
+			array.sort(function(a, b){
+				return a.name > b.name;
+			});
+
+			for(var index in array){
+				var item = array[index];
+				$('table').append('<tr id="world-' + item.id + '"></tr>');
+				$('tr:last').append('<td>' + item.name + '</td>');
+				$('tr:last').append('<td class="state"></td>');
+				$('tr:last').append('<td class="type"></td>');
+				$('tr:last').append('<td class="zone"></td>');
+				$('tr:last').append('<td class="details"></td>');
+
+				var world = worlds[item.id];
+				updateAlert(item.id, world.alert);
+
+				if(world.alert.active)
+					updateDetails(item.id, world.details);
+			}
+		} else {
+			for(var id in worlds){
+				var world = worlds[id];
+				updateAlert(id, world.alert);
+
+				if(world.alert.active)
+					updateDetails(id, world.details);
+			}
 		}
-
-		array.sort(function(a, b){
-			return a.name > b.name;
-		});
-
-		for(var index = 0; index < array.length; index++){
-			var world = array[index];
-			$('table').append('<tr id="world-' + world.id + '"></tr>');
-			$('tr:last').append('<td>' + world.name + '</td>');
-			$('tr:last').append('<td class="state"></td>');
-			$('tr:last').append('<td class="type"></td>');
-			$('tr:last').append('<td class="zone"></td>');
-			$('tr:last').append('<td class="details"></td>');
-
-			updateAlert(world);
-
-			if(world.active)
-				updateDetails(world.id, world.details);
-		}
-
-		initialized = true;
-		array.length = 0;
-	} else if(data.world){
-		worlds[data.world.id] = data.world;
-		updateAlert(data.world);
+	} else if(data.alert){
+		worlds[data.id].alert = data.alert;
+		updateAlert(data.id, data.alert);
 	} else if(data.details){
 		updateDetails(data.id, data.details);
 	}
 }
 
+var interval;
 var connect = function(url){
 	var socket = new WebSocket(url);
 	socket.onmessage = function(event){
 		if(event.data == 'ping'){
 			socket.send('pong');
 		} else {
-			dataReceived(JSON.parse(event.data));
+			processData(JSON.parse(event.data));
 		}
 	}
 
 	socket.onopen = function(){
-		if(window.interval){
-			clearInterval(window.interval);
-			window.interval = null;
+		if(interval){
+			clearInterval(interval);
+			interval = null;
 		}
 	}
 
 	socket.onclose = function(){
-		if(!window.interval){
-			window.interval = setInterval(function(){
+		if(!interval){
+			interval = setInterval(function(){
 				connect(url);
 			}, 5000);
 		}
