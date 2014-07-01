@@ -4,6 +4,15 @@ body {
 	font-family: 'Lato', sans-serif;
 }
 
+header {
+	text-align: center;
+}
+
+h1 {
+	margin: 0;
+	margin-bottom: 20px;
+}
+
 table {
 	margin: 0 auto;
 }
