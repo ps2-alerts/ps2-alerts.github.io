@@ -178,7 +178,7 @@ var connect = function(url){
 		if(!interval){
 			interval = setInterval(function(){
 				connect(url);
-			}, 5000);
+			}, 15000);
 		}
 	}
 };
