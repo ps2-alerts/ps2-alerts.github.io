@@ -8,11 +8,6 @@ table {
 	margin: 0 auto;
 }
 
-h2 {
-	text-align: center;
-	display: none;
-}
-
 tr {
 	background: #eee;
 	height: 24px;
