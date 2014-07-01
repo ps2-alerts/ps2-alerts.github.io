@@ -64,43 +64,38 @@ tr.active:hover td {
 	background: #fbb;
 }
 
-.vs {
-	background-color: #C660FC;
-}
-
-.nc {
-	background-color: #6687F0;
-}
-
-.tr {
-	background-color: #F04747;
-}
-
-.facility {
-	height: 17px;
-	width: 17px;
+tr div {
 	float: left;
+	height: 17px;
+}
+
+.ampstations div,
+.biolabs div,
+.techplants div {
+	width: 17px;
 	border-radius: 25px;
 	margin-right: 8px;
 }
 
-.facility:last-child {
+.territory div {
+	margin-right: 1px;
+}
+
+.ampstations div:last-child,
+.biolabs div:last-child,
+.techplants div:last-child,
+.territory div:last-child {
 	margin-right: 0;
 }
 
-.bar {
-	height: 17px;
-	float: left;
-	margin-right: 1px;
-	text-align: center;
+.vs {
+	background: #c660fc;
 }
 
-.bar span {
-	font-size: 14px;
-	display: none;
-	color: #fff;
+.nc {
+	background: #6687f0;
 }
 
-.bar:hover span {
-	display: inline;
+.tr {
+	background: #f04747;
 }

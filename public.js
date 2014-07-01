@@ -23,6 +23,45 @@ var zoneNames = {
 	8: 'Esamir'
 };
 
+var factionAbbrevs = [
+	'vs',
+	'nc',
+	'tr'
+];
+
+var facilityNames = {
+	// Indar
+	2105: 'Peris',
+	2107: 'Dahaka',
+	2109: 'Zurvan',
+	2103: 'Allatum',
+	2104: 'Saurva',
+	2106: 'Rashnu',
+	2101: 'Hvar',
+	2102: 'Mao',
+	2108: 'Tawrich',
+
+	// Amerish
+	6101: 'Kwahtee',
+	6111: 'Sungrey',
+	6121: 'Wokuk',
+	6102: 'Ikanam',
+	6113: 'Onatha',
+	6123: 'Xelas',
+	6103: 'Heyoka',
+	6112: 'Mekala',
+	6122: 'Tumas',
+
+	// Esamir
+	18023: 'Elli',
+	18024: 'Freyr',
+	18027: 'Nott',
+	18022: 'Andvari',
+	18026: 'Mani',
+	18028: 'Ymir',
+	18025: 'Eisa'
+};
+
 var updateTime = function(){
 	var now = Date.now();
 
@@ -46,38 +85,34 @@ var updateTime = function(){
 };
 
 var updateDetails = function(id, details){
-	var selecter = '#world-' + id + ' .details';
-	$(selecter).html('');
+	var field = $('#world-' + id + ' .details');
+	field.html('');
 
-	if(!worlds[id].active)
+	var alert = worlds[id].alert;
+	if(!alert.active)
 		return;
 
-	if(worlds[id].alert.type == 0){
-		$(selecter).append('<div class="bar vs bar-vs-' + id + '" style="width: ' + (216 * details[1]) / 100 + 'px"></div>');
-		if(details[1] > 15)
-			$('.bar-vs-' + id).append('<span>' + Math.floor(details[1]) + '%</span>');
+	if(!alert.type){
+		var total = details[1].length + details[2].length + details[3].length;
+		for(var factionId in details){
+			var percentage = (details[factionId].length / total) * 100;
 
-		$(selecter).append('<div class="bar nc bar-nc-' + id + '" style="width: ' + (216 * details[2]) / 100 + 'px"></div>');
-		if(details[2] > 15)
-			$('.bar-nc-' + id).append('<span>' + Math.floor(details[2]) + '%</span>');
-
-		$(selecter).append('<div class="bar tr bar-tr-' + id + '" style="width: ' + (216 * details[3]) / 100 + 'px"></div>');
-		if(details[3] > 15)
-			$('.bar-tr-' + id).append('<span>' + Math.floor(details[3]) + '%</span>');
+			$('<div></div>', {
+				class: factionAbbrevs[factionId - 1],
+				title: Math.floor(percentage) + '%'
+			}).css('width', (216 * percentage) / 100 + 'px').appendTo(field);
+		}
 	} else {
-		for(var index = 0; index < details[1].length; index++){
-			$(selecter).append('<div class="facility vs facility-vs-' + id + '-' + index + '"></div>');
-			$('.facility-vs-' + id + '-' + index).attr('title', details[1][index]);
-		}
+		for(var factionId in details){
+			var regions = details[factionId];
+			for(var regionId = 0; regionId < regions.length; regionId++){
+				var region = regions[regionId];
 
-		for(var index = 0; index < details[2].length; index++){
-			$(selecter).append('<div class="facility nc facility-nc-' + id + '-' + index + '"></div>');
-			$('.facility-nc-' + id + '-' + index).attr('title', details[2][index]);
-		}
-
-		for(var index = 0; index < details[3].length; index++){
-			$(selecter).append('<div class="facility tr facility-tr-' + id + '-' + index + '"></div>');
-			$('.facility-tr-' + id + '-' + index).attr('title', details[3][index]);
+				$('<div></div>', {
+					class: factionAbbrevs[factionId - 1],
+					title: facilityNames[region]
+				}).appendTo(field);
+			}
 		}
 	}
 };
@@ -93,6 +128,7 @@ var updateAlert = function(id, alert){
 	var schema = '#world-' + id;
 	if(alert.active){
 		$(schema).addClass('active');
+		$(schema).addClass(eventNames[alert.type].toLowerCase().replace(' ', ''));
 		$(schema + ' .state').html('Active alert!');
 		$(schema + ' .type').html(eventNames[alert.type]);
 		$(schema + ' .zone').html(zoneNames[alert.zone]);
