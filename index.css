@@ -69,6 +69,30 @@ tr div {
 	height: 20px;
 }
 
+tr div:hover {
+	position: relative;
+}
+
+tr div[data-title]:hover:after {
+	content: attr(data-title);
+	padding: 4px 6px;
+	position: absolute;
+	right: 50%;
+	bottom: 120%;
+	z-index: 20px;
+	background: white;
+	box-shadow: 0px 0px 4px #222;
+	-moz-box-shadow: 0px 0px 4px #222;
+	-webkit-box-shadow: 0px 0px 4px #222;
+	-ms-box-shadow: 0px 0px 4px #222;
+	-o-box-shadow: 0px 0px 4px #222;
+	transform: translateX(50%);
+	-moz-transform: translateX(50%);
+	-webkit-transform: translateX(50%);
+	-ms-transform: translateX(50%);
+	-o-transform: translateX(50%);
+}
+
 .ampstations div,
 .biolabs div,
 .techplants div {

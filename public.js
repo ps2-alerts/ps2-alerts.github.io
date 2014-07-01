@@ -99,7 +99,7 @@ var updateDetails = function(id, details){
 
 			$('<div></div>', {
 				class: factionAbbrevs[factionId - 1],
-				title: Math.floor(percentage) + '%'
+				'data-title': Math.floor(percentage) + '%'
 			}).css('width', (216 * percentage) / 100 + 'px').appendTo(field);
 		}
 	} else {
@@ -110,7 +110,7 @@ var updateDetails = function(id, details){
 
 				$('<div></div>', {
 					class: factionAbbrevs[factionId - 1],
-					title: facilityNames[region]
+					'data-title': facilityNames[region]
 				}).css({
 					'background-image': 'url(images/' + alert.type + '-' + factionId + '.png)'
 				}).appendTo(field);
