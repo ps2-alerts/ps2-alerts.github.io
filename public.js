@@ -66,20 +66,20 @@ var updateTime = function(){
 	var now = Date.now();
 
 	for(var id in worlds){
-		var world = worlds[id];
-		if(world.active){
-			var date = new Date(world.alert.start - now);
-			date.setUTCHours(date.getUTCHours() + world.alert.duration);
+		var alert = worlds[id].alert;
+		if(alert.active){
+			var date = new Date(alert.start - now);
+			date.setUTCHours(date.getUTCHours() + alert.duration);
 
 			var h = date.getUTCHours();
 			var m = ('0' + date.getUTCMinutes()).slice(-2);
 			var s = ('0' + date.getUTCSeconds()).slice(-2);
 
 			if(h > 2 || (h + +m + +s) < 0){
-				world.active = false;
-				updateAlert(world);
+				alert.active = false;
+				updateAlert(id, alert);
 			} else
-				$('#world-' + world.id + ' .state').html(h + ':' + m + ':' + s);
+				$('#world-' + id + ' .state').html(h + ':' + m + ':' + s);
 		}
 	}
 };
