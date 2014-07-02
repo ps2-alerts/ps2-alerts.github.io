@@ -123,3 +123,10 @@ tr div[data-title]:hover:after {
 .territory .tr {
 	background: #f04747;
 }
+
+.github {
+	position: absolute;
+	top: 0;
+	left: 0;
+	border: 0;
+}
