@@ -148,6 +148,7 @@ var updateAlert = function(id, alert){
 		$(schema + ' .zone').html(zoneNames[alert.zone]);
 
 		updateTime();
+		updateDetails(id, worlds[id].details);
 	} else {
 		$(schema).removeClass();
 		$(schema + ' .type').html('');
