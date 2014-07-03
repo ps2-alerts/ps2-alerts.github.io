@@ -1,7 +1,19 @@
-@import url(http://fonts.googleapis.com/css?family=Lato:400,700);
+@font-face {
+	font-family: 'Exo';
+	src: url(fonts/Exo.woff) format('woff');
+}
+
+@font-face{
+	font-family: 'Planetside2';
+	src: url(fonts/Planetside2.woff) format('woff');
+}
 
 body {
-	font-family: 'Lato', sans-serif;
+	font-family: 'Exo', Helvetica;
+	color: #fff;
+	background: #000 url(images/bodyBg4.jpg) center 0 no-repeat;
+	margin: 0;
+	padding: 0;
 }
 
 header {
@@ -9,27 +21,54 @@ header {
 }
 
 h1 {
-	margin: 0;
-	margin-bottom: 20px;
+	font-family: 'Planetside2', Helvetica;
+	margin: 30px;
+	font-size: 44px;
+}
+
+article {
+	margin-bottom: 200px;
 }
 
 table {
 	margin: 0 auto;
+	background-color: black;
+	border-spacing: 0;
 }
 
-tr {
-	background: #eee;
-	height: 30px;
+tr:nth-child(odd) {
+	background: #011618;
+}
+
+tr:hover {
+	background-color: #040f0f !important;
+}
+
+th {
+	height: 32px;
+	background: #065a61;
+	border-color: #09484d;
+}
+
+td, th {
+	min-width: 100px;
+	padding: 5px;
+	cursor: default;
+	text-align: center;
+}
+
+th:last-child,
+td:last-child {
+	width: 230px;
 }
 
 td {
-	min-width: 100px;
-	cursor: default;
-	padding: 5px;
+	height: 48px;
+	border-color: #092021;
 }
 
-td:last-child {
-	min-width: 22px;
+td:first-child {
+	color: #7ff4ff;
 }
 
 td.state {
@@ -40,52 +79,20 @@ tr.active td.state {
 	color: #f00;
 }
 
-tr:first-child {
-	font-weight: bold;
-}
-
-tr:first-child td {
-	background: #bbb !important;
-}
-
-tr:nth-child(odd) {
-	background: #ddd;
-}
-
-tr:hover td {
-	background: #ccc;
-}
-
-tr.active td {
-	background: #fdd;
-}
-
-tr.active:hover td {
-	background: #fbb;
-}
-
-tr div {
-	float: left;
-	height: 20px;
-}
-
-tr div:hover {
+.details div:hover {
 	position: relative;
 }
 
-tr div[data-title]:hover:after {
+.details div[data-title]:hover:after {
 	content: attr(data-title);
+	font-size: 13px;
 	padding: 4px 6px;
 	position: absolute;
 	right: 50%;
 	bottom: 120%;
-	z-index: 20px;
-	background: white;
-	box-shadow: 0px 0px 4px #222;
-	-moz-box-shadow: 0px 0px 4px #222;
-	-webkit-box-shadow: 0px 0px 4px #222;
-	-ms-box-shadow: 0px 0px 4px #222;
-	-o-box-shadow: 0px 0px 4px #222;
+	z-index: 999;
+	background: rgba(0, 50, 55, 0.97);
+	border: 1px solid rgba(0, 234, 255, 0.1);
 	transform: translateX(50%);
 	-moz-transform: translateX(50%);
 	-webkit-transform: translateX(50%);
@@ -93,35 +100,40 @@ tr div[data-title]:hover:after {
 	-o-transform: translateX(50%);
 }
 
+.details div:last-child {
+	margin-right: 0;
+}
+
+.details div {
+	display: inline-block;
+	height: 25px;
+}
+
 .ampstations div,
 .biolabs div,
 .techplants div {
-	width: 20px;
+	width: 25px;
 	margin-right: 8px;
 	background: no-repeat 0% / 100%;
 }
 
 .territory div {
-	margin-right: 1px;
-}
-
-.ampstations div:last-child,
-.biolabs div:last-child,
-.techplants div:last-child,
-.territory div:last-child {
-	margin-right: 0;
+	margin-right: 3px;
 }
 
 .territory .vs {
-	background: #c660fc;
+	background: #5f28b1;
+	border: 1px solid #cdadff;
 }
 
 .territory .nc {
-	background: #6687f0;
+	background: #20469c;
+	border: 1px solid #83a9ff;
 }
 
 .territory .tr {
-	background: #f04747;
+	background: #8f1f1f;
+	border: 1px solid #f99;
 }
 
 .github {
@@ -129,4 +141,10 @@ tr div[data-title]:hover:after {
 	top: 0;
 	left: 0;
 	border: 0;
+}
+
+footer {
+	background: url(images/footerBg.png) center top no-repeat;
+	min-height: 185px;
+	width: 100%;
 }
