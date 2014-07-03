@@ -111,7 +111,7 @@ var updateDetails = function(id, details){
 
 			$('<div></div>', {
 				class: factionAbbrevs[factionId - 1],
-				'data-title': Math.floor(percentage) + '%'
+				'data-title': Math.round(percentage) + '%'
 			}).css('width', (216 * percentage) / 100 + 'px').appendTo(field);
 		}
 	} else {
