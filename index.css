@@ -107,23 +107,20 @@ tr.active td.state {
 .details div {
 	display: inline-block;
 	height: 25px;
-}
-
-.territory div {
 	margin-right: 3px;
 }
 
-.territory .vs {
+.vs {
 	background: #5f28b1;
 	border: 1px solid #cdadff;
 }
 
-.territory .nc {
+.nc {
 	background: #20469c;
 	border: 1px solid #83a9ff;
 }
 
-.territory .tr {
+.tr {
 	background: #8f1f1f;
 	border: 1px solid #f99;
 }
