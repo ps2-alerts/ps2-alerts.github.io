@@ -1,17 +1,17 @@
 @font-face {
 	font-family: 'Exo';
-	src: url(fonts/Exo.woff) format('woff');
+	src: url(assets/fonts/Exo.woff) format('woff');
 }
 
 @font-face{
 	font-family: 'Planetside2';
-	src: url(fonts/Planetside2.woff) format('woff');
+	src: url(assets/fonts/Planetside2.woff) format('woff');
 }
 
 body {
 	font-family: 'Exo', Helvetica;
 	color: #fff;
-	background: #000 url(images/bodyBg4.jpg) center 0 no-repeat;
+	background: #000 url(assets/images/bodyBg4.jpg) center 0 no-repeat;
 	margin: 0;
 	padding: 0;
 }
@@ -133,7 +133,7 @@ tr.active td.state {
 }
 
 footer {
-	background: url(images/footerBg.png) center top no-repeat;
+	background: url(assets/images/footerBg.png) center top no-repeat;
 	min-height: 185px;
 	width: 100%;
 }
