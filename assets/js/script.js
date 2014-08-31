@@ -1,3 +1,6 @@
+if(location.host != 'alerts.p3lim.net')
+	location.href = '//alerts.p3lim.net/';
+
 var worlds, init;
 
 var worldNames = {
