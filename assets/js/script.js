@@ -54,14 +54,24 @@ var updateDetails = function(id, details){
 	if(!alert.active)
 		return;
 
-	var total = details[1].length + details[2].length + details[3].length;
-	for(var factionId in details){
-		var percentage = (details[factionId].length / total) * 100;
+	if(alert.specialEventID){
+		var description;
+		if(alert.specialEventID >= 51 && alert.specialEventID <= 54)
+			description = 'Pumpkin hunt!';
+		else
+			description = 'Unknown event';
 
-		$('<div></div>', {
-			class: factionAbbrevs[factionId - 1],
-			'data-title': Math.round(percentage) + '%'
-		}).css('width', (216 * percentage) / 100 + 'px').appendTo(field);
+		$('<span>' + description + '</span>').appendTo(field);
+	} else {
+		var total = details[1].length + details[2].length + details[3].length;
+		for(var factionId in details){
+			var percentage = (details[factionId].length / total) * 100;
+
+			$('<div></div>', {
+				class: factionAbbrevs[factionId - 1],
+				'data-title': Math.round(percentage) + '%'
+			}).css('width', (216 * percentage) / 100 + 'px').appendTo(field);
+		}
 	}
 };
 
