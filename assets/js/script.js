@@ -30,14 +30,18 @@ var updateTime = function(){
 	for(var id in worlds){
 		var alert = worlds[id].alert;
 		if(alert.active){
+			var maxDuration = 2; // hours
+			if(alert.specialEventID)
+				maxDuration = 1;
+
 			var date = new Date(alert.start - now);
-			date.setUTCHours(date.getUTCHours() + 1);
+			date.setUTCHours(date.getUTCHours() + maxDuration);
 
 			var h = date.getUTCHours();
 			var m = ('0' + date.getUTCMinutes()).slice(-2);
 			var s = ('0' + date.getUTCSeconds()).slice(-2);
 
-			if(h > 1 || (h + +m + +s) < 0){
+			if(h > maxDuration || (h + +m + +s) < 0){
 				alert.active = false;
 				updateAlert(id, alert);
 			} else
