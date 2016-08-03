@@ -178,7 +178,7 @@ var connect = function(url){
 $(document).ready(function(){
 	if('WebSocket' in window){
 		setInterval(updateTime, 1000);
-		connect('ws://ps2-alerts.herokuapp.com');
+		connect('wss://ps2-alerts.herokuapp.com');
 	} else
 		$('body').html('<header><h1>Your browser is too old!<br><a href="http://www.browser-update.org/update.html">Click here to learn more!</a></h1></header>');
 });
